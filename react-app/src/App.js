@@ -1,7 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 function App() {
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    let loginState = sessionStorage.getItem("login");
+    console.log(loginState)
+    if(loginState !== 'true') {
+      navigate('/login')
+    }
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
