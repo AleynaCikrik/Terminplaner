@@ -1,5 +1,6 @@
 import {initializeApp} from "firebase/app";
 import {getFirestore, doc, getDoc, setDoc, getDocs, collection} from 'firebase/firestore/lite';
+import {v4 as uuidv4} from 'uuid';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-GiYH7ih7A1_EHlah9i5dq-3OcAZ6tYw",
@@ -20,15 +21,27 @@ export async function getAllUsers() {
   return userArray
 }
 
+export async function getAllAppointments() {
+  const appointmentArray = []
+  const collRef = collection(db, 'Termine')
+  await getDocs(collRef).then((docs)=>docs.forEach((doc)=>appointmentArray.push(doc.data())))
+  return appointmentArray
+}
+
 export async function readComment(recipeID) {
   const docRef = doc(db, 'comments/' + recipeID);
   const docSnap = await getDoc(docRef);
   return docSnap.data();
 }
 
-export async function addComment(recipeID, text, newId) {
-  const docRef = doc(db, 'comments/' + recipeID);
+export async function addAppointment(friseur, frisur, kunde, from, to) {
+  let myuuid = uuidv4();
+  const docRef = doc(db, 'Termine/' + myuuid);
   await setDoc(docRef, {
-    [newId]: text
+    Friseur: friseur,
+    Frisur: frisur,
+    Kunde: kunde,
+    from: from,
+    to: to
   }, {merge: true});
 }
