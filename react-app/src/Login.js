@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { getAllUsers } from "./functions/Firebase";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function calcRights(userData, navigate) {
   let nameInput = document.getElementById("nameInput").value;
@@ -8,34 +7,39 @@ function calcRights(userData, navigate) {
   let match = false;
   let isAdmin = false;
   userData.forEach(element => {
-    if(element.Name === nameInput && element.Password === passwordInput) {
+    if (element.Name === nameInput && element.Password === passwordInput) {
       match = true;
       isAdmin = element.isAdmin;
     }
   });
 
-  if(match) {
+  if (match) {
     sessionStorage.setItem("login", "true");
     sessionStorage.setItem("name", nameInput);
     sessionStorage.setItem("isAdmin", isAdmin);
-    navigate('/')
+    navigate('/search')
+  } else {
+    toast.error('Benutzername/Passwort falsch!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 }
 
-function Login() {
+function Login(props) {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState([]);
-  useEffect(() => {
-    getAllUsers().then(data => setUserData(data))
-  }, []);
 
   return (
     <div>
-      Benutzername:
-      <input id='nameInput' type={'text'}></input>
-      Passwort:
-      <input id='passwordInput' type={'text'}></input>
-      <button onClick={()=>calcRights(userData, navigate)}>Login</button>
+      <input className='niceInput' placeholder="Benutzername" id='nameInput' type={'text'}></input>
+      <input className='niceInput' placeholder="Passwort" id='passwordInput' type={'text'}></input>
+      <button className='niceInput' onClick={() => calcRights(props.userData, navigate)}>Login</button>
     </div>
   );
 }
