@@ -31,12 +31,23 @@ code {
 
 .niceInput {
   height: 40px;
-  width: 96vw;
+  width: 100%;
   font-size: 15px;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 5px;
+}
+
+.containerDiv {
+  margin-left: 7px;
+  margin-right: 5px;
+}
+.containerDivExtra1 {
+  margin-left: 7px;
+  margin-right: 14px;
+}
+.containerDivExtra2 {
+  margin-left: 7px;
+  margin-right: 11px;
 }
 
 .niceDropdown {

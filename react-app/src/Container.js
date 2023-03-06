@@ -25,8 +25,8 @@ function Container() {
             <Header />
             <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="/search" element={<Search appointments={appointments} />} />
-                <Route path="/planner" element={<Planner setAppointments={setAppointments} userData={userData} />} />
+                <Route path="/search" element={<Search userData={userData} appointments={appointments} />} />
+                <Route path="/planner" element={<Planner appointments={appointments} setAppointments={setAppointments} userData={userData} />} />
                 <Route path="/login" element={<Login userData={userData} />} />
             </Routes>
             <ToastContainer

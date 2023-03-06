@@ -34,14 +34,13 @@ export async function readComment(recipeID) {
   return docSnap.data();
 }
 
-export async function addAppointment(friseur, frisur, kunde, from, to) {
+export async function addAppointment(friseur, kunde, date, duration) {
   let myuuid = uuidv4();
   const docRef = doc(db, 'Termine/' + myuuid);
   await setDoc(docRef, {
-    Friseur: friseur,
-    Frisur: frisur,
-    Kunde: kunde,
-    from: from,
-    to: to
+    fid: friseur,
+    knd: kunde,
+    date: date,
+    dur: duration
   }, {merge: true});
 }

@@ -1,83 +1,82 @@
-import { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { addAppointment } from './functions/Firebase';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from 'react-datepicker';
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
-import de from 'date-fns/locale/de';
-registerLocale('de', de)
+import { toast } from 'react-toastify';
 
 function handleNewAppointment(appointments, setAppointments) {
   let kundeInput = document.getElementById("kundeInput").value;
-  let frisurInput = document.getElementById("frisurInput").value;
+  let dateInput = document.getElementById("dateInput").value;
+  let dauerInput = document.getElementById("dauerInput").value;
   let friseurInput = document.getElementById("friseurInput").value;
-  let vonInput = document.getElementById("vonInput").value;
-  let bisInput = document.getElementById("bisInput").value;
-  addAppointment(friseurInput, frisurInput, kundeInput, new Date(vonInput), new Date(bisInput))
-  setAppointments([...appointments, {Kunde: kundeInput, Frisur: frisurInput, Friseur: friseurInput, from: new Date(vonInput), to: new Date(bisInput)}])
+  console.log(appointments)
+
+  if (kundeInput !== undefined && dateInput !== undefined && dauerInput !== undefined && friseurInput !== 'xxx' && kundeInput.trim() !== '' && dateInput.trim() !== '' && dauerInput.trim() !== '') {
+    addAppointment(friseurInput, kundeInput, new Date(dateInput), dauerInput)
+    console.log(appointments)
+    console.log(dateInput)
+    setAppointments([...appointments, { knd: kundeInput, fid: friseurInput, date: { seconds: Date.parse(dateInput) / 1000, nanoseconds: 0 }, dur: dauerInput }])
+    toast.success('Erfolgreich gespeichert', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
+
+    document.getElementById("friseurInput").value = 'xxx'
+    document.getElementById("dateInput").value = ''
+    document.getElementById("dauerInput").value = ''
+    document.getElementById("kundeInput").value = ''
+  } else {
+    toast.error('Bitte alle Felder füllen', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
 }
 
 function Planner(props) {
   const navigate = useNavigate();
-  const options = props.userData.map((usr)=>({value:usr.Name, label:usr.Name}))
-
-
   useEffect(() => {
     let loginState = sessionStorage.getItem("login");
-    if(loginState !== 'true') {
+    if (loginState !== 'true') {
       navigate('/login')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  
-
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
-  const [startDate1, setStartDate1] = useState(new Date());
-  const [endDate1, setEndDate1] = useState(new Date());
   return (
     <div className="App">
-      <Dropdown className='niceDropdown' options={options} placeholder='Friseur'/>
-      <input className='niceInput' placeholder='Kunde' id='kundeInput' type={'text'}></input>
-      <input className='niceInput' id='vonInput' type={'datetime-local'}></input>
-      <input className='niceInput' step={5} placeholder='Dauer (Minuten)' id='bisInput' type={'number'}></input>
-      <button className='niceInput' onClick={()=>handleNewAppointment(props.appointments, props.setAppointments)}>Termin Anlegen</button>
-      <DatePicker
-      selectsRange={true}
-      startDate={startDate}
-      endDate={endDate}
-      showTimeSelect
-      locale="de"
-      onChange={(update) => {
-        setDateRange(update);
-      }}
-      isClearable={true}
-    />
-    <DatePicker
-      selected={startDate1}
-      onChange={date => setStartDate1(date)}
-      showTimeSelect
-      showTimeSelectOnly
-      selectsStart
-      timeIntervals={15}
-      timeCaption="Time"
-      dateFormat="h:mm aa"
-    />
-    <DatePicker
-      selected={endDate1}
-      onChange={date => setEndDate1(date)}
-      showTimeSelect
-      showTimeSelectOnly
-      selectsEnd
-      minTime={startDate1}
-      maxTime={startDate1}
-      timeIntervals={15}
-      timeCaption="Time"
-      dateFormat="h:mm aa"
-    />
+      <div className='containerDiv'>
+        <select defaultValue={'xxx'} className='niceInput' id='friseurInput'>
+          <option value="xxx" disabled hidden>Friseur</option>
+          {props.userData.map((data, idx) => { return <option key={idx} value={data.id}>{data.name}</option> })}
+        </select>
+      </div>
+
+      <div className='containerDivExtra1'>
+        <input className='niceInput' placeholder='Kunde' id='kundeInput' type={'text'}></input>
+      </div>
+
+      <div className='containerDivExtra2'>
+        <input className='niceInput' id='dateInput' type={'datetime-local'}></input>
+      </div>
+
+      <div className='containerDivExtra1'>
+        <input className='niceInput' step={5} placeholder='Dauer (Minuten)' id='dauerInput' type={'number'}></input>
+      </div>
+
+      <div className='containerDiv'>
+        <button type="submit" className='niceInput' onClick={() => handleNewAppointment(props.appointments, props.setAppointments)}>Termin Anlegen</button>
+      </div>
     </div>
   );
 }

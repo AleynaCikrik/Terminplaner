@@ -7,9 +7,10 @@ function calcRights(userData, navigate) {
   let match = false;
   let isAdmin = false;
   userData.forEach(element => {
-    if (element.Name === nameInput && element.Password === passwordInput) {
+    console.log(element)
+    if (element.name === nameInput && element.pw === passwordInput) {
       match = true;
-      isAdmin = element.isAdmin;
+      isAdmin = element.ia;
     }
   });
 
