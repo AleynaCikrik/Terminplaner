@@ -8,7 +8,6 @@ function handleNewAppointment(appointments, setAppointments) {
   let dateInput = document.getElementById("dateInput").value;
   let dauerInput = document.getElementById("dauerInput").value;
   let friseurInput = document.getElementById("friseurInput").value;
-  console.log(appointments)
 
   if (kundeInput !== undefined && dateInput !== undefined && dauerInput !== undefined && friseurInput !== 'xxx' && kundeInput.trim() !== '' && dateInput.trim() !== '' && dauerInput.trim() !== '') {
     addAppointment(friseurInput, kundeInput, new Date(dateInput), dauerInput)
@@ -75,7 +74,7 @@ function Planner(props) {
       </div>
 
       <div className='containerDiv'>
-        <button type="submit" className='niceInput' onClick={() => handleNewAppointment(props.appointments, props.setAppointments)}>Termin Anlegen</button>
+        <button className='niceInput' onClick={() => handleNewAppointment(props.appointments, props.setAppointments)}>Termin Anlegen</button>
       </div>
     </div>
   );

@@ -38,9 +38,15 @@ function Login(props) {
 
   return (
     <div>
-      <input className='niceInput' placeholder="Benutzername" id='nameInput' type={'text'}></input>
-      <input className='niceInput' placeholder="Passwort" id='passwordInput' type={'text'}></input>
-      <button className='niceInput' onClick={() => calcRights(props.userData, navigate)}>Login</button>
+      <div className='containerDivExtra2'>
+        <input className='niceInput' placeholder="Benutzername" id='nameInput' type={'text'}></input>
+      </div>
+      <div className='containerDivExtra2'>
+        <input className='niceInput' placeholder="Passwort" id='passwordInput' type={'password'}></input>
+      </div>
+      <div className='containerDiv'>
+        <button className='niceInput' onClick={() => calcRights(props.userData, navigate)}>Login</button>
+      </div>
     </div>
   );
 }
