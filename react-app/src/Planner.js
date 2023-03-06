@@ -11,8 +11,6 @@ function handleNewAppointment(appointments, setAppointments) {
 
   if (kundeInput !== undefined && dateInput !== undefined && dauerInput !== undefined && friseurInput !== 'xxx' && kundeInput.trim() !== '' && dateInput.trim() !== '' && dauerInput.trim() !== '') {
     addAppointment(friseurInput, kundeInput, new Date(dateInput), dauerInput)
-    console.log(appointments)
-    console.log(dateInput)
     setAppointments([...appointments, { knd: kundeInput, fid: friseurInput, date: { seconds: Date.parse(dateInput) / 1000, nanoseconds: 0 }, dur: dauerInput }])
     toast.success('Erfolgreich gespeichert', {
       position: "top-right",

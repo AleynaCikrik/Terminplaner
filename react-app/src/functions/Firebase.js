@@ -44,3 +44,14 @@ export async function addAppointment(friseur, kunde, date, duration) {
     dur: duration
   }, {merge: true});
 }
+
+export async function addNewUser(id, isAdmin, name, password) {
+  let myuuid = uuidv4();
+  const docRef = doc(db, 'User/' + myuuid);
+  await setDoc(docRef, {
+    ia: isAdmin,
+    id: id,
+    name: name,
+    pw: password
+  }, {merge: true});
+}

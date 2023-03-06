@@ -12,6 +12,9 @@ function handleSearch(navigate) {
 function handlePlanner(navigate) {
   navigate('/planner')
 }
+function handleAddUser(navigate) {
+  navigate('/addUser')
+}
 
 function Header() {
   const navigate = useNavigate();
@@ -19,6 +22,7 @@ function Header() {
     <div className='header'>
       <span onClick={()=>handleSearch(navigate)} className='headerIcon'>🔍</span>
       <span onClick={()=>handlePlanner(navigate)} className='headerIcon'>📅</span>
+      <span onClick={()=>handleAddUser(navigate)} className='headerIcon'>➕</span>
       <span onClick={()=>handleLogout(navigate)} className='headerIconLogout'>🚪</span>
   </div>
   );

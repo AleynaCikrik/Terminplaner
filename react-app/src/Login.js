@@ -7,7 +7,6 @@ function calcRights(userData, navigate) {
   let match = false;
   let isAdmin = false;
   userData.forEach(element => {
-    console.log(element)
     if (element.name === nameInput && element.pw === passwordInput) {
       match = true;
       isAdmin = element.ia;

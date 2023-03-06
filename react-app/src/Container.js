@@ -8,6 +8,7 @@ import Search from './Search';
 import Planner from './Planner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AddUser from './AddUser';
 
 
 function Container() {
@@ -15,7 +16,6 @@ function Container() {
     const [userData, setUserData] = useState([]);
 
     useEffect(() => {
-        console.log('bitte rnur eimal')
         getAllAppointments().then(data => setAppointments(data))
         getAllUsers().then(data => setUserData(data))
     }, []);
@@ -28,6 +28,7 @@ function Container() {
                 <Route path="/search" element={<Search userData={userData} appointments={appointments} />} />
                 <Route path="/planner" element={<Planner appointments={appointments} setAppointments={setAppointments} userData={userData} />} />
                 <Route path="/login" element={<Login userData={userData} />} />
+                <Route path="/addUser" element={<AddUser userData={userData} setUserData={setUserData}/>} />
             </Routes>
             <ToastContainer
                 position="top-right"

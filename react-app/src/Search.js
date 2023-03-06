@@ -13,7 +13,6 @@ function handleSearch(appointments, setAppointmentsWork) {
   let friseurInput = document.getElementById("friseurInput").value;
   let kundeInput = document.getElementById("kundeInput").value;
   let dateInput = document.getElementById("dateInput").value;
-  console.log(dateInput)
   appointments.forEach((app) => {
     const dateObj = new Date(app.date.seconds*1000).toISOString().split('T')[0]
     if((app.fid===friseurInput || friseurInput==='xxx') && (app.knd===kundeInput || kundeInput===undefined || kundeInput==='') && (dateObj===dateInput || dateInput===undefined || dateInput==='')) {
@@ -41,7 +40,6 @@ function Search(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.appointments]);
 
-
   return (
     <div className="App">
       <div className='containerDiv'>
@@ -61,15 +59,11 @@ function Search(props) {
       </div>
 <hr />
 
-
-
 <table id="customers">
     <thead><tr><th>Kunde</th><th>Friseur</th><th>Datum</th><th>Uhrzeit</th><th>Dauer (min)</th></tr></thead>
-      
       <tbody>
         {appointmentsWork!==undefined?appointmentsWork.map((data, idx) => {return <tr key={idx}><td key={idx+'Kunde'}>{data.knd}</td><td key={idx+'Friseur'}>{getFriseur(props.userData, data.fid)}</td><td key={idx+'date'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[0].trim()}</td><td key={idx+'time'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[1].trim()}</td><td key={idx+'duration'}>{data.dur}</td></tr>}):<tr />}
      </tbody></table>
-    
     </div>
   );
 }
