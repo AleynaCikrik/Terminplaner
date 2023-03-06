@@ -54,7 +54,7 @@ function Search(props) {
         <input className='niceInput' placeholder='Kunde' id='kundeInput' type={'text'}></input>
       </div>
       <div className='containerDivExtra2'>
-        <input className='niceInput' id='dateInput' type={'date'}></input>
+        <input className='inputDate' id='dateInput' type={'date'}></input>
       </div>
       <div className='containerDiv'>
         <button className='niceInput' onClick={() => handleSearch(props.appointments, setAppointmentsWork)}>Suche</button>
@@ -64,10 +64,10 @@ function Search(props) {
 
 
 <table id="customers">
-    <thead><tr><th>Kunde</th><th>Friseur</th><th>Datum, Uhrzeit</th><th>Dauer (min)</th></tr></thead>
+    <thead><tr><th>Kunde</th><th>Friseur</th><th>Datum</th><th>Uhrzeit</th><th>Dauer (min)</th></tr></thead>
       
       <tbody>
-        {appointmentsWork!==undefined?appointmentsWork.map((data, idx) => {return <tr key={idx}><td key={idx+'Kunde'}>{data.knd}</td><td key={idx+'Friseur'}>{getFriseur(props.userData, data.fid)}</td><td key={idx+'von'}>{new Date(data.date.seconds*1000).toLocaleString()}</td><td key={idx+'bis'}>{data.dur}</td></tr>}):<tr />}
+        {appointmentsWork!==undefined?appointmentsWork.map((data, idx) => {return <tr key={idx}><td key={idx+'Kunde'}>{data.knd}</td><td key={idx+'Friseur'}>{getFriseur(props.userData, data.fid)}</td><td key={idx+'date'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[0].trim()}</td><td key={idx+'time'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[1].trim()}</td><td key={idx+'duration'}>{data.dur}</td></tr>}):<tr />}
      </tbody></table>
     
     </div>
