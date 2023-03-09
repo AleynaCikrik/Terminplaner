@@ -3,12 +3,12 @@
   "name": "Terminplaner",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon1.ico",
       "sizes": "32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo128.png",
+      "src": "logo-2.png",
       "type": "image/png",
       "sizes": "128x128"
     }
