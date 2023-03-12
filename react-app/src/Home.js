@@ -101,6 +101,7 @@ function Home(props) {
                     close()
                   }
                   }}>Termin Anlegen</button>
+                  <button className='buttonModal' onClick={()=>close()}>Abbrechen</button>
                 </div>)}</Popup>}</td> 
              } else {
               return <td key={idx}><center>{found.knd}<br /><Popup trigger={<button className='delButton'>🗑️</button>} modal position="right center">{close => (<div>
@@ -128,6 +129,7 @@ function Home(props) {
                     });
                   }
                 }}>Löschen</button>
+                <button className='buttonModal' onClick={()=>close()}>Abbrechen</button>
                 </div>)}</Popup></center></td> 
              }
             })}
