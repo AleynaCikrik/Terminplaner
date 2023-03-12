@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function handleKeyDown(key, userData, navigate) {
+function handleKeyDown(key, userData, navigate, setIsAdmin) {
   if(key === 'Enter') {
-    calcRights(userData, navigate)
+    calcRights(userData, navigate, setIsAdmin)
 }
 }
 
-function calcRights(userData, navigate) {
+function calcRights(userData, navigate, setIsAdmin) {
   let nameInput = document.getElementById("nameInput").value;
   let passwordInput = document.getElementById("passwordInput").value;
   let match = false;
@@ -23,6 +23,7 @@ function calcRights(userData, navigate) {
     sessionStorage.setItem("login", "true");
     sessionStorage.setItem("name", nameInput);
     sessionStorage.setItem("isAdmin", isAdmin);
+    setIsAdmin(isAdmin)
     navigate('/home')
   } else {
     toast.error('Benutzername/Passwort falsch!', {
@@ -47,10 +48,10 @@ function Login(props) {
         <input className='niceInput' placeholder="Benutzername" id='nameInput' type={'text'}></input>
       </div>
       <div className='containerDivExtra2'>
-        <input onKeyDown={(e)=>handleKeyDown(e.key, props.userData, navigate)} className='niceInput' placeholder="Passwort" id='passwordInput' type={'password'}></input>
+        <input onKeyDown={(e)=>handleKeyDown(e.key, props.userData, navigate, props.setIsAdmin)} className='niceInput' placeholder="Passwort" id='passwordInput' type={'password'}></input>
       </div>
       <div className='containerDiv'>
-        <button className='niceInput' onClick={() => calcRights(props.userData, navigate)}>Login</button>
+        <button className='niceInput' onClick={() => calcRights(props.userData, navigate, props.setIsAdmin)}>Login</button>
       </div>
     </div>
   );

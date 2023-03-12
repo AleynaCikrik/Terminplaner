@@ -53,6 +53,33 @@ code {
   border-width: thin;
 }
 
+.buttonModal {
+  height: 40px;
+  width: 100%;
+  font-size: 15px;
+  display: block;
+  margin-top: 5px;
+  color: black;
+  font-family: Verdana, sans-serif;
+  border-width: thin;
+  cursor: pointer;
+}
+
+.niceInputModal {
+  height: 40px;
+  width: 97%;
+  font-size: 15px;
+  display: block;
+  margin-top: 5px;
+  color: black;
+  font-family: Verdana, sans-serif;
+  border-width: thin;
+}
+
+.delButton {
+  cursor: pointer;
+}
+
 .niceTableElem {
   height: 40px;
   width: 100%;

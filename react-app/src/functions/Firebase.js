@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, doc, getDoc, setDoc, getDocs, collection} from 'firebase/firestore/lite';
+import {getFirestore, doc, getDoc, deleteDoc, setDoc, getDocs, collection} from 'firebase/firestore/lite';
 import {v4 as uuidv4} from 'uuid';
 
 const firebaseConfig = {
@@ -24,7 +24,7 @@ export async function getAllUsers() {
 export async function getAllAppointments() {
   const appointmentArray = []
   const collRef = collection(db, 'Termine')
-  await getDocs(collRef).then((docs)=>docs.forEach((doc)=>appointmentArray.push(doc.data())))
+  await getDocs(collRef).then((docs)=>docs.forEach((doc)=>{appointmentArray.push({...doc.data(), docID: doc.id})}))
   return appointmentArray
 }
 
@@ -54,4 +54,9 @@ export async function addNewUser(id, isAdmin, name, password) {
     name: name,
     pw: password
   }, {merge: true});
+}
+
+export async function deleteAppointment(docID) {
+  const docRef = doc(db, 'Termine/' + docID);
+  await deleteDoc(docRef);
 }

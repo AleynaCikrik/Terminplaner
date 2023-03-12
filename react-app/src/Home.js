@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addAppointment } from './functions/Firebase';
+import { addAppointment, deleteAppointment } from './functions/Firebase';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
-function handleNewAppointment(usr, timedata, appointments, setAppointments) {
-  let person = prompt("Bitte Kunde Eingeben");
-  console.log(usr, timedata, person)
-  addAppointment(usr, person, timedata, '30')
-  setAppointments([...appointments, { knd: person, fid: usr, date: { seconds: timedata / 1000, nanoseconds: 0 }, dur: '30' }])
+function handleDelete(app, appointments, setAppointments) {
+  deleteAppointment(app.docID)
+  setAppointments(appointments.filter(function(appointmentIdx) { 
+    return app.docID !== appointmentIdx.docID
+}));
+}
+
+function handleNewAppointment(usr, timedata, appointments, setAppointments, kundenNameInput) {
+    addAppointment(usr, kundenNameInput, timedata, '30')
+    setAppointments([...appointments, { knd: kundenNameInput, fid: usr, date: { seconds: timedata / 1000, nanoseconds: 0 }, dur: '30' }])
 }
 
 function handleDateChange(appointments, setAppointmentsWork, setSelectedDate) {
@@ -80,9 +87,22 @@ function Home(props) {
               return parseInt(appoint.fid) === usr.id && (appoint.date.seconds*1000 === timedata.getTime());
              });
              if(found===undefined) {
-              return <td key={idx}>{<button onClick={()=>handleNewAppointment(usr.id, timedata, props.appointments, props.setAppointments)} className='niceTableElem'>➕</button>}</td> 
+              return <td key={idx}>{<Popup trigger={<button className='niceTableElem'>➕</button>} modal position="right center">{close => (<div>
+                <p className='niceInputModal'>Neuen Termin Anlegen:</p>
+                <hr />
+                <input className='niceInputModal' placeholder='Name Kunde' id='kundenNameInput' type={'text'}></input>
+                <input className='niceInputModal' id='dateumInput' disabled readOnly value={timedata.toLocaleString()} type={'text'}></input>
+                <input className='niceInputModal' id='dateumInput' disabled readOnly value={usr.name} type={'text'}></input>
+                <button className='buttonModal' onClick={()=>{
+                  let kundenNameInput = document.getElementById("kundenNameInput").value
+                  if(kundenNameInput!==undefined&& kundenNameInput!==null && kundenNameInput!=='') {
+                    handleNewAppointment(usr.id, timedata, props.appointments, props.setAppointments, kundenNameInput)
+                    close()
+                  }
+                  }}>Termin Anlegen</button>
+                </div>)}</Popup>}</td> 
              } else {
-              return <td key={idx}>{found.knd}</td> 
+              return <td key={idx}><center>{found.knd}<br /><button onClick={()=>handleDelete(found, props.appointments, props.setAppointments)} className='delButton' disabled={!props.isAdmin}>🗑️</button></center></td> 
              }
             })}
           </tr>})}

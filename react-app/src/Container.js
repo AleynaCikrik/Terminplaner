@@ -15,10 +15,13 @@ import Home from './Home';
 function Container() {
     const [appointments, setAppointments] = useState([]);
     const [userData, setUserData] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         getAllAppointments().then(data => setAppointments(data))
         getAllUsers().then(data => setUserData(data))
+        let loginState = sessionStorage.getItem("isAdmin");
+        setIsAdmin(loginState==='true')
     }, []);
 
     return (
@@ -26,8 +29,8 @@ function Container() {
             <Header />
             <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="/login" element={<Login userData={userData} />} />
-                <Route path="/home" element={<Home  appointments={appointments} setAppointments={setAppointments} userData={userData}/>} />
+                <Route path="/login" element={<Login userData={userData} setIsAdmin={setIsAdmin}/>} />
+                <Route path="/home" element={<Home isAdmin={isAdmin} appointments={appointments} setAppointments={setAppointments} userData={userData}/>} />
                 <Route path="/search" element={<Search userData={userData} appointments={appointments} />} />
                 <Route path="/planner" element={<Planner appointments={appointments} setAppointments={setAppointments} userData={userData} />} />
                 <Route path="/addUser" element={<AddUser userData={userData} setUserData={setUserData}/>} />
