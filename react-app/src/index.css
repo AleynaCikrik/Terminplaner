@@ -53,6 +53,17 @@ code {
   border-width: thin;
 }
 
+.niceTableElem {
+  height: 40px;
+  width: 100%;
+  font-size: 15px;
+  display: block;
+  color: black;
+  font-family: Verdana, sans-serif;
+  border-width: thin;
+  cursor: pointer;
+}
+
 .niceCheck {
   font-size: 15px;
   margin-top: 5px;
@@ -109,4 +120,30 @@ code {
   background-color: #04AA6D;
   color: white;
   font-family: Verdana, sans-serif;
+}
+
+.tableContainer {
+  overflow-x:auto;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.tableContainer table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #ddd;
+}
+
+.tableContainer table th:first-child {
+  position: sticky;
+  left: 0;
 }

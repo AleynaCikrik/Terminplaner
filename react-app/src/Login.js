@@ -1,6 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+function handleKeyDown(key, userData, navigate) {
+  if(key === 'Enter') {
+    calcRights(userData, navigate)
+}
+}
+
 function calcRights(userData, navigate) {
   let nameInput = document.getElementById("nameInput").value;
   let passwordInput = document.getElementById("passwordInput").value;
@@ -17,7 +23,7 @@ function calcRights(userData, navigate) {
     sessionStorage.setItem("login", "true");
     sessionStorage.setItem("name", nameInput);
     sessionStorage.setItem("isAdmin", isAdmin);
-    navigate('/search')
+    navigate('/home')
   } else {
     toast.error('Benutzername/Passwort falsch!', {
       position: "top-right",
@@ -41,7 +47,7 @@ function Login(props) {
         <input className='niceInput' placeholder="Benutzername" id='nameInput' type={'text'}></input>
       </div>
       <div className='containerDivExtra2'>
-        <input className='niceInput' placeholder="Passwort" id='passwordInput' type={'password'}></input>
+        <input onKeyDown={(e)=>handleKeyDown(e.key, props.userData, navigate)} className='niceInput' placeholder="Passwort" id='passwordInput' type={'password'}></input>
       </div>
       <div className='containerDiv'>
         <button className='niceInput' onClick={() => calcRights(props.userData, navigate)}>Login</button>
