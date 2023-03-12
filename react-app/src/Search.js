@@ -24,7 +24,6 @@ function handleSearchFree(appointments, setAppointmentsWork, userData) {
     }
     currentTime.setTime(currentTime.getTime() + 30 * 60 * 1000); // Erhöhe die Zeit um 30 Minuten
   }
-  console.log(times)
   times.forEach((timeLoop) => {
     userData.forEach((userLoop) => {
       var found = appointments.find(function (appoint) {
@@ -35,7 +34,6 @@ function handleSearchFree(appointments, setAppointmentsWork, userData) {
        }
     })
   })
-  console.log('aaaaaa', newAppointments)
   setAppointmentsWork(newAppointments)
 }
 
