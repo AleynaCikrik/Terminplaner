@@ -8,6 +8,37 @@ function getFriseur(userData, friseurID) {
   return friseurName
 }
 
+function handleSearchFree(appointments, setAppointmentsWork, userData) {
+  const startTime = new Date(document.getElementById('dateInput').valueAsDate)
+  startTime.setHours(10, 0, 0, 0); // 10:00:00 PM
+  const endTime = new Date(document.getElementById('dateInput').valueAsDate)
+  endTime.setHours(20, 0, 0, 0); // 8:00:00 PM
+  const times = []
+  const newAppointments = []
+  
+  // Schleife durch alle halben Stunden zwischen Start- und Endzeit
+  let currentTime = startTime;
+  while (currentTime <= endTime) {
+    if (currentTime.getMinutes() === 0 || currentTime.getMinutes() === 30) {
+      times.push(new Date(currentTime.getTime()))
+    }
+    currentTime.setTime(currentTime.getTime() + 30 * 60 * 1000); // Erhöhe die Zeit um 30 Minuten
+  }
+  console.log(times)
+  times.forEach((timeLoop) => {
+    userData.forEach((userLoop) => {
+      var found = appointments.find(function (appoint) {
+        return parseInt(appoint.fid) === userLoop.id && (appoint.date.seconds*1000 === timeLoop.getTime());
+       });
+       if(found===undefined) {
+        newAppointments.push({date: { seconds: timeLoop / 1000, nanoseconds: 0 }, dur:'30', fid:userLoop.id, knd: '-'})
+       }
+    })
+  })
+  console.log('aaaaaa', newAppointments)
+  setAppointmentsWork(newAppointments)
+}
+
 function handleSearch(appointments, setAppointmentsWork) {
   const newAppointments = []
   let friseurInput = document.getElementById("friseurInput").value;
@@ -57,12 +88,15 @@ function Search(props) {
       <div className='containerDiv'>
         <button className='niceInput' onClick={() => handleSearch(props.appointments, setAppointmentsWork)}>Suche</button>
       </div>
+      <div className='containerDiv'>
+        <button className='niceInput' onClick={() => handleSearchFree(props.appointments, setAppointmentsWork, props.userData)}>Freie-Suche</button>
+      </div>
 <hr />
 
 <table id="customers">
-    <thead><tr><th>Kunde</th><th>Friseur</th><th>Datum</th><th>Uhrzeit</th><th>Dauer (min)</th></tr></thead>
+    <thead><tr><th>Kunde</th><th>Friseur</th><th>Datum</th><th>Uhrzeit</th></tr></thead>
       <tbody>
-        {appointmentsWork!==undefined?appointmentsWork.map((data, idx) => {return <tr key={idx}><td key={idx+'Kunde'}>{data.knd}</td><td key={idx+'Friseur'}>{getFriseur(props.userData, data.fid)}</td><td key={idx+'date'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[0].trim()}</td><td key={idx+'time'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[1].trim()}</td><td key={idx+'duration'}>{data.dur}</td></tr>}):<tr />}
+        {appointmentsWork!==undefined?appointmentsWork.map((data, idx) => {return <tr key={idx}><td key={idx+'Kunde'}>{data.knd}</td><td key={idx+'Friseur'}>{getFriseur(props.userData, data.fid)}</td><td key={idx+'date'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[0].trim()}</td><td key={idx+'time'}>{new Date(data.date.seconds*1000).toLocaleString().split(',')[1].trim()}</td></tr>}):<tr />}
      </tbody></table>
     </div>
   );
