@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addAppointment, deleteAppointment } from './functions/Firebase';
+import { toast } from 'react-toastify';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -102,7 +103,32 @@ function Home(props) {
                   }}>Termin Anlegen</button>
                 </div>)}</Popup>}</td> 
              } else {
-              return <td key={idx}><center>{found.knd}<br /><button onClick={()=>handleDelete(found, props.appointments, props.setAppointments)} className='delButton' disabled={!props.isAdmin}>🗑️</button></center></td> 
+              return <td key={idx}><center>{found.knd}<br /><Popup trigger={<button className='delButton'>🗑️</button>} modal position="right center">{close => (<div>
+                <p className='niceInputModal'>Termin Löschen:</p>
+                <hr />
+                <input className='niceInputModal'  disabled readOnly value={found.knd} id='kundenNameInput' type={'text'}></input>
+                <input className='niceInputModal' id='dateumInput' disabled readOnly value={timedata.toLocaleString()} type={'text'}></input>
+                <input className='niceInputModal' id='dateumInput' disabled readOnly value={usr.name} type={'text'}></input>
+                <input placeholder='Passwort' className='niceInputModal' id='pwInput' type={'password'}></input>
+                <button className='buttonModal' onClick={()=>{
+                  let kundenNameInput = document.getElementById("pwInput").value
+                  if(kundenNameInput!==undefined&& kundenNameInput!==null && kundenNameInput==='91757') {
+                    handleDelete(found, props.appointments, props.setAppointments)
+                    close()
+                  } else {
+                    toast.error('Passwort falsch!', {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: false,
+                      draggable: false,
+                      progress: undefined,
+                      theme: "colored",
+                    });
+                  }
+                }}>Löschen</button>
+                </div>)}</Popup></center></td> 
              }
             })}
           </tr>})}
