@@ -44,7 +44,7 @@ function handleSearch(appointments, setAppointmentsWork) {
   let dateInput = document.getElementById("dateInput").value;
   appointments.forEach((app) => {
     const dateObj = new Date(app.date.seconds*1000).toISOString().split('T')[0]
-    if((app.fid===friseurInput || friseurInput==='xxx') && (app.knd===kundeInput || kundeInput===undefined || kundeInput==='') && (dateObj===dateInput || dateInput===undefined || dateInput==='')) {
+    if((app.fid.toString()===friseurInput || friseurInput==='xxx') && (app.knd===kundeInput || kundeInput===undefined || kundeInput==='') && (dateObj===dateInput || dateInput===undefined || dateInput==='')) {
       newAppointments.push(app)
     }
   })

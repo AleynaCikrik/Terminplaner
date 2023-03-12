@@ -7,9 +7,13 @@ import 'reactjs-popup/dist/index.css';
 
 function handleDelete(app, appointments, setAppointments) {
   deleteAppointment(app.docID)
-  setAppointments(appointments.filter(function(appointmentIdx) { 
-    return app.docID !== appointmentIdx.docID
-}));
+  const newAppointsments = []
+  appointments.forEach((appLoop) => {
+    if(app.docID!==appLoop.docID) {
+      newAppointsments.push(appLoop)
+    }
+  })
+  setAppointments(newAppointsments);
 }
 
 function handleNewAppointment(usr, timedata, appointments, setAppointments, kundenNameInput) {
@@ -109,8 +113,27 @@ function Home(props) {
                 <hr />
                 <input className='niceInputModal'  disabled readOnly value={found.knd} id='kundenNameInput' type={'text'}></input>
                 <input className='niceInputModal' id='dateumInput' disabled readOnly value={timedata.toLocaleString()} type={'text'}></input>
-                <input className='niceInputModal' id='dateumInput' disabled readOnly value={usr.name} type={'text'}></input>
-                <input placeholder='Passwort' className='niceInputModal' id='pwInput' type={'password'}></input>
+                <input className='niceInputModal' id='dateumInput2' disabled readOnly value={usr.name} type={'text'}></input>
+                <input placeholder='Passwort' className='niceInputModal' id='pwInput' type={'password'} onKeyDown={(e)=> {
+                   if(e.key === 'Enter') { 
+                    let kundenNameInput = document.getElementById("pwInput").value
+                  if(kundenNameInput!==undefined&& kundenNameInput!==null && kundenNameInput==='91757') {
+                    handleDelete(found, props.appointments, props.setAppointments)
+                    close()
+                  } else {
+                    toast.error('Passwort falsch!', {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: false,
+                      draggable: false,
+                      progress: undefined,
+                      theme: "colored",
+                    });
+                  }
+                   }
+                  }}></input>
                 <button className='buttonModal' onClick={()=>{
                   let kundenNameInput = document.getElementById("pwInput").value
                   if(kundenNameInput!==undefined&& kundenNameInput!==null && kundenNameInput==='91757') {

@@ -19,7 +19,7 @@ function Container() {
 
     useEffect(() => {
         getAllAppointments().then(data => setAppointments(data))
-        getAllUsers().then(data => setUserData(data))
+        getAllUsers().then(data => setUserData(data.sort((a, b) => (a.id > b.id) ? 1 : -1)))
         let loginState = sessionStorage.getItem("isAdmin");
         setIsAdmin(loginState==='true')
     }, []);
