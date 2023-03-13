@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image:url('Logo.jpeg');
+  /* background-image:url('Logo.jpeg'); */
 }
 
 code {
@@ -151,7 +151,8 @@ code {
 }
 
 .tableContainer {
-  overflow-x:auto;
+  overflow:auto;
+  height: 80vh;
 }
 table {
   border-collapse: collapse;
@@ -171,7 +172,7 @@ th, td {
   background-color: #ddd;
 }
 
-.tableContainer table th:first-child {
+.tableContainer table th {
   position: sticky;
-  left: 0;
+  top: 0;
 }
